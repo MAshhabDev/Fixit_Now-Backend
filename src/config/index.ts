@@ -3,8 +3,14 @@ import path from "path";
 
 dotenv.config({ path: path.join(process.cwd(), ".env") });
 
+export const config = {
+  port: process.env.PORT || 5000,
+  database_url: process.env.DATABASE_URL,
+  bcrypt_salt_rounds: process.env.BCRYPT_SALT_ROUNDS,
 
-export const config={
-    port:process.env.PORT||5000,
-    database_url:process.env.DATABASE_URL
-}
+  jwt_access_secret: process.env.JWT_ACCESS_SECRET,
+  jwt_refresh_secret: process.env.JWT_REFRESH_SECRET,
+
+  jwt_access_expires: process.env.JWT_ACCESS_EXPIRES_IN,
+  jwt_refresh_expires: process.env.JWT_REFRESH_EXPIRES_IN,
+};

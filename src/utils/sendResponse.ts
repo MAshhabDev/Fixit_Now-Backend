@@ -2,7 +2,7 @@ import type { Response } from "express";
 type TMeta = {};
 
 type TData<T> = {
-  success: string;
+  success: boolean;
   statusCode: number;
   message: string;
   data: T;
