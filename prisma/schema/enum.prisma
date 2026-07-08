@@ -1,0 +1,21 @@
+enum Role{
+    CUSTOMER
+    ADMIN
+    TECHNICIAN
+}
+
+
+enum userStatus{
+    ACTIVE
+    BLOCKED
+}
+
+
+enum bookingStatus{
+    REQUESTED
+    ACCEPTED
+    DECLINED
+    PAID 
+    IN_PROGRESS
+    COMPLETED
+}

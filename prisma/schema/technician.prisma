@@ -1,0 +1,16 @@
+model Technician {
+    id String @id @default(uuid())
+    category String
+    skills String
+    experience Int
+    bio String
+    Salary String
+    location String
+    availability String
+    isVerified Boolean @default(false)
+
+
+    userId String @unique
+    user User @relation(fields: [userId],references: [id])
+
+}

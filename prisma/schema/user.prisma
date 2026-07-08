@@ -1,0 +1,20 @@
+model User {
+    id        String     @id @default(uuid())
+    name      String     @db.VarChar(50)
+    email     String     @unique
+    password  String
+    role      Role       @default(CUSTOMER)
+    phone     String
+    address   String?
+    status    userStatus @default(ACTIVE)
+    createdAt DateTime   @default(now())
+    updatedAt DateTime   @updatedAt
+
+    technician Technician?
+
+    bookings       Booking[] @relation("CustomerBookings")
+    technicianJobs Booking[] @relation("TechnicianBookings")
+    reviews        Review[]
+
+    @@map("users")
+}
