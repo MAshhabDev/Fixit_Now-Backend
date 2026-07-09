@@ -4,7 +4,7 @@ import express, {
   type Response,
 } from "express";
 import cookieParser from "cookie-parser";
-import { authRoute } from "./module/auth.route";
+import { authRoute } from "./module/auth/auth.route";
 
 export const app: Application = express();
 

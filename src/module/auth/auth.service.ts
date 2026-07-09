@@ -1,9 +1,9 @@
-import { config } from "../config";
-import { prisma } from "../lib/prisma";
+import { config } from "../../config";
+import { prisma } from "../../lib/prisma";
 import bcrypt from "bcrypt";
 import jwt, { SignOptions, type JwtPayload } from "jsonwebtoken";
 import type { ICreate, ILogin } from "./auth.interface";
-import { jwtUtils } from "../utils/jwt";
+import { jwtUtils } from "../../utils/jwt";
 
 const createUser = async (payload: ICreate) => {
   const { name, email, password, phone, role } = payload;
