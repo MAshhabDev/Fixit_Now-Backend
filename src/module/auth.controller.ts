@@ -20,17 +20,56 @@ const createUser = catchAsync(
 );
 const logInUser = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    const result = await authService.createUser(req.body);
+    const { accessToken, refreshToken } = await authService.logInUser(req.body);
+
+    // Save the token to the cookie
+    res.cookie("accessToken", accessToken, {
+      httpOnly: true,
+      secure: false,
+      sameSite: "none",
+      maxAge: 1000 * 60 * 60 * 24,
+    });
+
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: false,
+      sameSite: "none",
+      maxAge: 1000 * 60 * 60 * 168,
+    });
 
     sendResponse(res, {
       success: true,
-      statusCode: httpStatus.CREATED,
-      message: "User registered successfully",
+      statusCode: httpStatus.OK,
+      message: "Log In successfully Done",
       data: {
-        result,
+        accessToken,
+        refreshToken,
       },
     });
   },
 );
 
-export const authController = { createUser, logInUser };
+const refreshToken = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const refreshToken = req.cookies.refreshToken;
+    const { accessToken } = await authService.refreshTokenIntoDb(refreshToken);
+
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: false,
+      sameSite: "none",
+      maxAge: 1000 * 60 * 60 * 24,
+    });
+
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "Log In successfully Done",
+      data: {
+        accessToken,
+      },
+    });
+  },
+);
+
+export const authController = { createUser, logInUser,refreshToken };

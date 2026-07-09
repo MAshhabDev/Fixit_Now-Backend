@@ -1,8 +1,11 @@
 import { config } from "../config";
 import { prisma } from "../lib/prisma";
 import bcrypt from "bcrypt";
+import jwt, { SignOptions, type JwtPayload } from "jsonwebtoken";
+import type { ICreate, ILogin } from "./auth.interface";
+import { jwtUtils } from "../utils/jwt";
 
-const createUser = async (payload: any) => {
+const createUser = async (payload: ICreate) => {
   const { name, email, password, phone, role } = payload;
 
   if (!name || !email || !password || !phone || !role) {
@@ -55,6 +58,82 @@ const createUser = async (payload: any) => {
 
   return user;
 };
-const logInUser = async () => {};
 
-export const authService = { createUser, logInUser };
+const logInUser = async (payload: ILogin) => {
+  const { email, password } = payload;
+  const user = await prisma.user.findUnique({
+    where: {
+      email,
+    },
+  });
+
+  if (!user) {
+    throw new Error("Did not find user for this email");
+  }
+
+  const matchPass = await bcrypt.compare(password, user.password);
+
+  if (!matchPass) {
+    throw new Error("Did not match the password");
+  }
+
+  const jwtPayload = {
+    id: user.id,
+    name: user.name,
+    email: user.email,
+    role: user.role,
+    phone: user.phone,
+  };
+
+  const accessToken = jwt.sign(jwtPayload, config.jwt_access_secret, {
+    expiresIn: config.jwt_access_expires,
+  } as SignOptions);
+
+  const refreshToken = jwt.sign(jwtPayload, config.jwt_refresh_secret, {
+    expiresIn: config.jwt_refresh_expires,
+  } as SignOptions);
+
+  return { accessToken, refreshToken };
+};
+
+const refreshTokenIntoDb = async (refreshToken: string) => {
+  const verified = jwtUtils.verifyToken(
+    refreshToken,
+    config.jwt_refresh_secret,
+  );
+
+  if (!verified.success) {
+    throw new Error(verified.error);
+  }
+
+  const { id } = verified.data as JwtPayload;
+
+  const user = await prisma.user.findUniqueOrThrow({
+    where: {
+      id,
+    },
+  });
+  if (user.status === "BLOCKED") {
+    throw new Error("User Is Blocked");
+  }
+
+  const jwtPayload = {
+    id,
+    name: user.name,
+    email: user.email,
+    role: user.role,
+    phone: user.phone,
+  };
+
+  const accessToken = jwtUtils.createToken(
+    jwtPayload,
+    config.jwt_access_secret,
+    {
+      expiresIn: config.jwt_access_expires,
+    } as SignOptions,
+  );
+
+  return { accessToken };
+};
+
+export const authService = { createUser, refreshTokenIntoDb, logInUser };
