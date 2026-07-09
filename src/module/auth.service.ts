@@ -17,11 +17,15 @@ const createUser = async (payload: any) => {
     throw new Error("Password must be at least 6 characters long");
   }
 
-  const userExist = await prisma.user.findUniqueOrThrow({
+  const userExist = await prisma.user.findUnique({
     where: {
       email,
     },
   });
+
+  if (userExist) {
+    throw new Error("User Already Exist");
+  }
 
   const hashPass = await bcrypt.hash(
     password,
@@ -38,39 +42,12 @@ const createUser = async (payload: any) => {
     },
   });
 
-  if (role === "TECHNICIAN") {
-    const crateTechnician = await prisma.technician.create({
-      data: {
-        userId: createUser.id,
-        category: "Not Specified",
-        skills: "",
-        experience: 0,
-        bio: "",
-        rate: "",
-        location: "",
-        availability: "Not Set",
-      },
-    });
-  }
-
-  //   const user = await prisma.user.findUniqueOrThrow({
-  //     where: {
-  //       id: userData.id,
-  //       email: userData.email,
-  //     },
-  //     include: {
-  //       User: true,
-  //     },
-  //   });
-
   const user = await prisma.user.findUnique({
     where: {
       id: createUser.id,
       email: createUser.email,
     },
-    include:{
-        technician:true
-    },
+
     omit: {
       password: true,
     },
