@@ -13,8 +13,8 @@ model User {
     technician Technician?
 
     bookings       Booking[] @relation("CustomerBookings")
-    technicianJobs Booking[] @relation("TechnicianBookings")
-    reviews        Review[]
+    reviews        Review[] @relation("CustomerReviews")
+
 
     @@map("users")
 }

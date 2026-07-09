@@ -1,14 +1,21 @@
 model Technician {
-    id           String  @id @default(uuid())
-    category     String
-    skills       String
+    id           String   @id @default(uuid())
+    bio          String   @db.Text
+    skills       String   @db.Text
     experience   Int
-    bio          String
-    rate         String
+    rate         Int
     location     String
     availability String
-    isVerified   Boolean @default(false)
+    isVerified   Boolean  @default(false)
+    createdAt    DateTime @default(now())
+    updatedAt    DateTime @updatedAt
 
-    userId String @unique
-    user   User   @relation(fields: [userId], references: [id])
+    userId     String   @unique
+    user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    categoryId String
+    category   Category @relation(fields: [categoryId], references: [id])
+
+    services Service[]
+    bookings Booking[]
+    reviews  Review[]
 }
