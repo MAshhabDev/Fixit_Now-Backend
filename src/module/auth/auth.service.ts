@@ -136,4 +136,17 @@ const refreshTokenIntoDb = async (refreshToken: string) => {
   return { accessToken };
 };
 
-export const authService = { createUser, refreshTokenIntoDb, logInUser };
+const getMe = async (id: string) => {
+  const user = await prisma.user.findUniqueOrThrow({
+    where: {
+      id,
+    },
+    omit: {
+      password: true,
+    },
+  });
+
+  return user;
+};
+
+export const authService = { createUser, refreshTokenIntoDb, logInUser, getMe };
