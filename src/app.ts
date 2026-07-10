@@ -9,6 +9,7 @@ import {
   adminCategoryRoute,
   publicCategoryRoute,
 } from "./module/category/category.route";
+import { technicianRoute } from "./module/technician/technician.route";
 
 export const app: Application = express();
 
@@ -21,6 +22,8 @@ app.use("/api/auth", authRoute);
 
 app.use("/api/categories", publicCategoryRoute);
 app.use("/api/admin/categories", adminCategoryRoute);
+
+app.use("/api/technician", technicianRoute);
 
 app.get("/", (req: Request, res: Response) => {
   res.send("Welcome To The Fixit Now Server");
