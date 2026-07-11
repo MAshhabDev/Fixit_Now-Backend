@@ -6,6 +6,9 @@ const router = Router();
 
 router.put("/profile", auth("TECHNICIAN"), technicianController.updateProfile);
 
+router.get("/", technicianController.getAllTechnician);
+router.get("/:id", technicianController.getSingleTechnician);
+
 router.put(
   "/availability",
   auth("TECHNICIAN"),
@@ -16,7 +19,7 @@ router.get(
   auth("TECHNICIAN"),
   technicianController.getTechnicianBooking,
 );
-router.put(
+router.patch(
   "/bookings/:id",
   auth("TECHNICIAN"),
   technicianController.updateBookingStatus,

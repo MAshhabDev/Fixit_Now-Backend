@@ -98,9 +98,67 @@ const updateBookingStatus = async (
   return result;
 };
 
+const getAllTechnician = async (query: any) => {
+  const { searchTerm, categoryId, location } = query;
+  const andConditions: any[] = [];
+
+  if (searchTerm) {
+    andConditions.push({
+      OR: [
+        { skills: { contains: searchTerm, mode: "insensitive" } },
+        { bio: { contains: searchTerm, mode: "insensitive" } },
+      ],
+    });
+  }
+  if (categoryId) {
+    andConditions.push({
+      categoryId,
+    });
+  }
+  if (location) {
+    andConditions.push({
+      location: { contains: location, mode: "insensitive" },
+    });
+  }
+
+  const result = await prisma.technician.findMany({
+    where: { AND: andConditions },
+    include: {
+      user: { select: { name: true, email: true, phone: true } },
+      category: true,
+    },
+  });
+
+  return result;
+};
+
+const getSingleTechnician = async (id: string) => {
+  const result = await prisma.technician.findUniqueOrThrow({
+    where: { id },
+    include: {
+      user: {
+        select: { name: true, email: true, phone: true },
+      },
+      services: true,
+      category: true,
+      reviews: {
+        include: {
+          customer: {
+            select: { name: true }, 
+          },
+        },
+      },
+    },
+  });
+
+  return result;
+};
+
 export const technicianService = {
   updateProfile,
   updateAvailability,
   getTechnicianBooking,
   updateBookingStatus,
+  getAllTechnician,
+  getSingleTechnician
 };

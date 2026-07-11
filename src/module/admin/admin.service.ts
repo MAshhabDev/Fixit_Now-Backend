@@ -35,6 +35,7 @@ const updateUserStatus = async (userId: string, status: userStatus) => {
     where: { id: userId },
     data: {
       status,
+      
     },
     omit: { password: true },
   });
@@ -42,4 +43,16 @@ const updateUserStatus = async (userId: string, status: userStatus) => {
   return result;
 };
 
-export const adminService = { getAllUsers, getAllBookings, updateUserStatus };
+const verifyTechnician = async (id: string, isVerified: boolean) => {
+  const result = await prisma.technician.update({
+    where: {
+      id
+    },
+    data: {
+      isVerified, 
+    },
+  });
+  return result;
+};
+
+export const adminService = { getAllUsers, getAllBookings, updateUserStatus ,verifyTechnician};

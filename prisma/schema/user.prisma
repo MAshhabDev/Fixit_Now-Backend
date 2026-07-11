@@ -12,9 +12,9 @@ model User {
 
     technician Technician?
 
-    bookings       Booking[] @relation("CustomerBookings")
-    reviews        Review[] @relation("CustomerReviews")
+    bookings Booking[] @relation("CustomerBookings")
+    reviews  Review[]  @relation("CustomerReviews")
 
-
+    @@index([status])
     @@map("users")
 }

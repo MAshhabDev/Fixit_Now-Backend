@@ -4,7 +4,7 @@ import { sendResponse } from "../../utils/sendResponse";
 import { reviewService } from "./review.service";
 import httpStatus from "http-status";
 
-const createCategory = catchAsync(
+const createReview = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const payload = req.body;
     const userId = req.user?.id;
@@ -20,4 +20,4 @@ const createCategory = catchAsync(
   },
 );
 
-export const reviewController={createCategory}
+export const reviewController={createReview}

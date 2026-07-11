@@ -17,4 +17,9 @@ model Booking {
     serviceId  String
     service    Service    @relation(fields: [serviceId], references: [id])
     review     Review?
+
+
+    @@index([customerId, createdAt])
+  @@index([technicianId, createdAt])
+  @@index([serviceId])
 }

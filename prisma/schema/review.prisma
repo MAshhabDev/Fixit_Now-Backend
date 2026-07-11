@@ -10,4 +10,7 @@ model Review {
     technician   Technician @relation(fields: [technicianId], references: [id], onDelete: Cascade)
     booking      Booking    @relation(fields: [bookingId], references: [id])
     customer     User       @relation("CustomerReviews", fields: [customerId], references: [id])
+
+    @@index([customerId])
+    @@index([technicianId])
 }

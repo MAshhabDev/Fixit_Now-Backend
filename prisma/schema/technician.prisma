@@ -18,4 +18,6 @@ model Technician {
     services Service[]
     bookings Booking[]
     reviews  Review[]
+
+  @@index([rate])
 }

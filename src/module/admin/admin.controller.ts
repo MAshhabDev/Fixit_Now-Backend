@@ -39,10 +39,34 @@ const updateUserStatus = catchAsync(
     sendResponse(res, {
       success: true,
       statusCode: httpStatus.OK,
-      message: "Booking List Retrieved successfully",
+      message: "User status updated successfully done",
       data: result,
     });
   },
 );
 
-export const adminController = { getBookingList, getUserList,updateUserStatus };
+const verifyTechnician = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { id } = req.params; 
+    const { isVerified } = req.body; 
+
+    const result = await adminService.verifyTechnician(
+      id as string,
+      isVerified,
+    );
+
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "Technician verification status updated successfully done",
+      data: result,
+    });
+  },
+);
+
+export const adminController = {
+  getBookingList,
+  getUserList,
+  updateUserStatus,
+  verifyTechnician
+};
