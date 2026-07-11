@@ -1,3 +1,4 @@
+import type { bookingStatus } from "../../../generated/prisma/enums";
 import { prisma } from "../../lib/prisma";
 import type { IUpdate } from "./technician.interface";
 
@@ -68,10 +69,38 @@ const getTechnicianBooking = async (userId: string) => {
   });
   return result;
 };
-const updateBookingStatus = async () => {};
+const updateBookingStatus = async (
+  bookingId: string,
+  userId: string,
+  status: bookingStatus,
+) => {
+  const technician = await prisma.technician.findUniqueOrThrow({
+    where: { userId },
+  });
+
+  const booking = await prisma.booking.findUniqueOrThrow({
+    where: { id: bookingId },
+  });
+
+  if (technician.id !== booking.technicianId) {
+    throw new Error("You are not authorized to update this booking status!");
+  }
+
+  const result = await prisma.booking.update({
+    where: {
+      id: bookingId,
+    },
+    data: {
+      status,
+    },
+  });
+
+  return result;
+};
 
 export const technicianService = {
   updateProfile,
   updateAvailability,
   getTechnicianBooking,
+  updateBookingStatus,
 };
