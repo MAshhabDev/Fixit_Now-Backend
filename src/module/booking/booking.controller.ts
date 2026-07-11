@@ -3,8 +3,6 @@ import { catchAsync } from "../../utils/catchAsync";
 import { sendResponse } from "../../utils/sendResponse";
 import { bookingService } from "./booking.service";
 import httpStatus from "http-status";
-import { prisma } from "../../lib/prisma";
-import { Role } from "../../../generated/prisma/enums";
 
 const createBooking = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -32,9 +30,9 @@ const getCustomerBooking = catchAsync(
       success: true,
       statusCode: httpStatus.CREATED,
       message: "Customers Booking Retrieved successfully",
-      data: {
+      data: 
         result,
-      },
+      
     });
   },
 );
