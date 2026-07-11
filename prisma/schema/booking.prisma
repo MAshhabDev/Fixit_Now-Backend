@@ -10,16 +10,16 @@ model Booking {
 
     customerId String
 
-    customer     User   @relation("CustomerBookings", fields: [customerId], references: [id])
+    customer     User       @relation("CustomerBookings", fields: [customerId], references: [id])
     technicianId String
-    technician   Technician   @relation( fields: [technicianId], references: [id])
+    technician   Technician @relation(fields: [technicianId], references: [id])
 
-    serviceId  String
-    service    Service    @relation(fields: [serviceId], references: [id])
-    review     Review?
-
+    serviceId String
+    service   Service  @relation(fields: [serviceId], references: [id])
+    review    Review?
+    payment   Payment?
 
     @@index([customerId, createdAt])
-  @@index([technicianId, createdAt])
-  @@index([serviceId])
+    @@index([technicianId, createdAt])
+    @@index([serviceId])
 }
