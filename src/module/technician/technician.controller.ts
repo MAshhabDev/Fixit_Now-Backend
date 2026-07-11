@@ -38,6 +38,21 @@ const updateAvailability = catchAsync(
     });
   },
 );
+const getTechnicianBooking = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const id = req.user?.id;
+
+    const result = await technicianService.getTechnicianBooking(id as string);
+
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "Technician Bookings Retrieved successfully",
+      data: result,
+    });
+  },
+);
+
 const updateBookingStatus = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {},
 );
@@ -45,4 +60,5 @@ const updateBookingStatus = catchAsync(
 export const technicianController = {
   updateAvailability,
   updateProfile,
+  getTechnicianBooking
 };

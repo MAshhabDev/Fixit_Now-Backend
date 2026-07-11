@@ -43,8 +43,21 @@ const getAllService = async (query: any) => {
     });
   }
 
+  if (query.minPrice || query.maxPrice) {
+    const priceFilter: any = {};
+    if (query.minPrice) {
+      priceFilter.gte = Number(query.minPrice);
+    }
+    if (query.maxPrice) {
+      priceFilter.lte = Number(query.maxPrice);
+    }
+    andConditions.push({
+      price: priceFilter,
+    });
+  }
+
   const services = await prisma.service.findMany({
-    where: andConditions.length > 0 ? { AND: andConditions } : {},
+    where: { AND: andConditions } ,
     orderBy:
       sortBy !== "rating"
         ? {

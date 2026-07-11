@@ -49,6 +49,29 @@ const updateAvailability = async (userId: string, availability: string) => {
   });
   return result;
 };
+
+const getTechnicianBooking = async (userId: string) => {
+  const technician = await prisma.technician.findUniqueOrThrow({
+    where: {
+      userId,
+    },
+  });
+
+  const result = await prisma.booking.findMany({
+    where: {
+      technicianId: technician.id,
+    },
+    include: {
+      service: true,
+      customer: { select: { name: true, email: true } },
+    },
+  });
+  return result;
+};
 const updateBookingStatus = async () => {};
 
-export const technicianService = { updateProfile, updateAvailability };
+export const technicianService = {
+  updateProfile,
+  updateAvailability,
+  getTechnicianBooking,
+};

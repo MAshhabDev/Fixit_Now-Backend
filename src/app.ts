@@ -11,6 +11,7 @@ import {
 } from "./module/category/category.route";
 import { technicianRoute } from "./module/technician/technician.route";
 import { serviceRoute } from "./module/service/service.route";
+import { bookingRoute } from "./module/booking/booking.route";
 
 export const app: Application = express();
 
@@ -25,7 +26,8 @@ app.use("/api/categories", publicCategoryRoute);
 app.use("/api/admin/categories", adminCategoryRoute);
 
 app.use("/api/technician", technicianRoute);
-app.use("/api/service", serviceRoute);
+app.use("/api/services", serviceRoute);
+app.use("/api/bookings", bookingRoute);
 
 app.get("/", (req: Request, res: Response) => {
   res.send("Welcome To The Fixit Now Server");
