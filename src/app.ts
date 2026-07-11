@@ -12,6 +12,7 @@ import {
 import { technicianRoute } from "./module/technician/technician.route";
 import { serviceRoute } from "./module/service/service.route";
 import { bookingRoute } from "./module/booking/booking.route";
+import { reviewRoute } from "./module/review/review.route";
 
 export const app: Application = express();
 
@@ -28,6 +29,7 @@ app.use("/api/admin/categories", adminCategoryRoute);
 app.use("/api/technician", technicianRoute);
 app.use("/api/services", serviceRoute);
 app.use("/api/bookings", bookingRoute);
+app.use("/api/review", reviewRoute);
 
 app.get("/", (req: Request, res: Response) => {
   res.send("Welcome To The Fixit Now Server");
