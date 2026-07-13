@@ -16,6 +16,7 @@ import { reviewRoute } from "./module/review/review.route";
 import { adminRoute } from "./module/admin/admin.route";
 import { globalErrorHandler } from "./middlewares/globalErrorHandler";
 import { notFound } from "./middlewares/notFound";
+import { paymentRoute } from "./module/payment/payment.route";
 
 export const app: Application = express();
 
@@ -34,6 +35,7 @@ app.use("/api/services", serviceRoute);
 app.use("/api/bookings", bookingRoute);
 app.use("/api/review", reviewRoute);
 app.use("/api/admin", adminRoute);
+app.use("/api/payment", paymentRoute);
 
 app.get("/", (req: Request, res: Response) => {
   res.send("Welcome To The Fixit Now Server");

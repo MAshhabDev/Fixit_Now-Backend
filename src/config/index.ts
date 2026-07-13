@@ -15,4 +15,5 @@ export const config = {
   jwt_refresh_expires: process.env.JWT_REFRESH_EXPIRES_IN,
 
   stripe_secret_key: process.env.STRIPE_SECRET_KEY!,
+  stripe_product_key: process.env.STRIPE_PRODUCT_KEY!,
 };
