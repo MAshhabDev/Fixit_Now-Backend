@@ -10,7 +10,7 @@ export const globalErrorHandler = (
 ) => {
   console.error("Error Details: ", err);
 
-  let statusCode;
+  let statusCode = err.statusCode || httpStatus.INTERNAL_SERVER_ERROR;
   let errorMessage = err.message || "Internal Server Error";
   let errorName = err.name || "Internal Server Error";
 

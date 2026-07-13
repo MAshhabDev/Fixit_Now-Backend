@@ -6,14 +6,16 @@ import { paymentService } from "./payment.service";
 
 const createCheckOutSession = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    const payload = req.body;
-
-    const result = await paymentService.createCheckOutSession;
-
+    const { bookingId } = req.body;
+    const userId = req.user?.id;
+    const result = await paymentService.createCheckOutSession(
+      bookingId,
+      userId as string,
+    );
     sendResponse(res, {
       success: true,
-      statusCode: httpStatus.CREATED,
-      message: "Category Created successfully",
+      statusCode: httpStatus.OK,
+      message: "Payment session created successfully done",
       data: result,
     });
   },
