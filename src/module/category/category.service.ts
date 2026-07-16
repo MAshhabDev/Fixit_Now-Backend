@@ -4,6 +4,24 @@ import type { ICreateCategory } from "./category.interface";
 const createCategory = async (payload: ICreateCategory) => {
   const { name, description } = payload;
 
+  if (!name || !description) {
+    throw new Error("Name and description are required!");
+  }
+
+  // Check if a category with the same name already exists (case-insensitive)
+  const categoryExists = await prisma.category.findFirst({
+    where: {
+      name: {
+        equals: name,
+        mode: "insensitive",
+      },
+    },
+  });
+
+  if (categoryExists) {
+    throw new Error("Category with this name already exists!");
+  }
+
   const result = await prisma.category.create({
     data: {
       name,

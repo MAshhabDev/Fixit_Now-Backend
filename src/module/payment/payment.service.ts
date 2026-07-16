@@ -2,6 +2,7 @@ import Stripe from "stripe";
 import { config } from "../../config";
 import { prisma } from "../../lib/prisma";
 import { stripe } from "../../lib/stripe";
+import { paymentUtils } from "./payment.utils";
 
 const createCheckOutSession = async (bookingId: string, userId: string) => {
   const transactionResult = await prisma.$transaction(async (tx) => {
@@ -77,38 +78,18 @@ const handleWebhook = async (payload: Buffer, signature: string) => {
 
   switch (event.type) {
     case "checkout.session.completed": {
-      const session: Stripe.Checkout.Session = event.data.object;
-
-      await prisma.$transaction(async (tx) => {
-        const payment = await tx.payment.findUniqueOrThrow({
-          where: { transactionId: session.id },
-        });
-
-        await tx.payment.update({
-          where: { id: payment.id },
-          data: { status: "SUCCESS" },
-        });
-
-        await tx.booking.update({
-          where: { id: payment.bookingId },
-          data: { status: "PAID" },
-        });
-      });
+      const session = event.data.object as Stripe.Checkout.Session;
+      await paymentUtils.handleCheckoutSessionCompleted(session);
       break;
     }
 
     case "checkout.session.expired": {
-      const session: Stripe.Checkout.Session = event.data.object;
-
-      await prisma.payment.update({
-        where: { transactionId: session.id },
-        data: { status: "FAILED" },
-      });
+      const session = event.data.object as Stripe.Checkout.Session;
+      await paymentUtils.handleCheckoutSessionExpired(session);
       break;
     }
 
     default:
-      break;
   }
 };
 
