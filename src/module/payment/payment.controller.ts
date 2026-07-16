@@ -1,17 +1,19 @@
 import type { NextFunction, Request, Response } from "express";
 import { catchAsync } from "../../utils/catchAsync";
-import httpStatus from "http-status";
 import { sendResponse } from "../../utils/sendResponse";
 import { paymentService } from "./payment.service";
+import httpStatus from "http-status";
 
 const createCheckOutSession = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const { bookingId } = req.body;
     const userId = req.user?.id;
+
     const result = await paymentService.createCheckOutSession(
       bookingId,
       userId as string,
     );
+
     sendResponse(res, {
       success: true,
       statusCode: httpStatus.OK,
@@ -23,18 +25,58 @@ const createCheckOutSession = catchAsync(
 
 const handleWebhook = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    const event = req.body as Buffer;
-    const signature = req.headers["stripe-signature"]!;
+    const signature = req.headers["stripe-signature"] as string;
+    const payload = (req as any).rawBody; 
 
-    await paymentService.handleWebhook(event, signature as string);
+    await paymentService.handleWebhook(payload, signature);
+
+    res.status(httpStatus.OK).json({ received: true });
+  },
+);
+
+const getPaymentHistory = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const userId = req.user?.id;
+    const role = req.user?.role;
+
+    const result = await paymentService.getPaymentHistory(
+      userId as string,
+      role as string,
+    );
 
     sendResponse(res, {
       success: true,
-      statusCode: 200,
-      message: "Webhook triggered successfully",
-      data: null,
+      statusCode: httpStatus.OK,
+      message: "Payment history retrieved successfully done",
+      data: result,
     });
   },
 );
 
-export const paymentController = { createCheckOutSession };
+const getPaymentDetails = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { id } = req.params;
+    const userId = req.user?.id;
+    const role = req.user?.role;
+
+    const result = await paymentService.getPaymentDetails(
+      id as string,
+      userId as string,
+      role as string,
+    );
+
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "Payment details retrieved successfully done",
+      data: result,
+    });
+  },
+);
+
+export const paymentController = {
+  createCheckOutSession,
+  handleWebhook,
+  getPaymentHistory,
+  getPaymentDetails,
+};

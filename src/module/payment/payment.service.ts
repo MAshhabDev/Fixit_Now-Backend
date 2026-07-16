@@ -1,13 +1,12 @@
+import Stripe from "stripe";
 import { config } from "../../config";
 import { prisma } from "../../lib/prisma";
 import { stripe } from "../../lib/stripe";
 
 const createCheckOutSession = async (bookingId: string, userId: string) => {
   const transactionResult = await prisma.$transaction(async (tx) => {
-    const booking = await prisma.booking.findUniqueOrThrow({
-      where: {
-        id: bookingId,
-      },
+    const booking = await tx.booking.findUniqueOrThrow({
+      where: { id: bookingId },
       include: { service: true },
     });
 
@@ -15,17 +14,18 @@ const createCheckOutSession = async (bookingId: string, userId: string) => {
       throw new Error("You do not have access to pay for this booking!");
     }
     if (booking.status !== "ACCEPTED") {
-      throw new Error("You can only pay for accepted bookings not others!");
+      throw new Error("You can only pay for accepted bookings!");
     }
 
     const session = await stripe.checkout.sessions.create({
       line_items: [
         {
           price_data: {
-            currency: "bdt",
+            currency: "usd",
             product_data: {
               name: booking.service.title,
-              description: booking.service.description,
+              description:
+                booking.service.description || "Service Booking Payment",
             },
             unit_amount: booking.totalAmount * 100,
           },
@@ -34,15 +34,13 @@ const createCheckOutSession = async (bookingId: string, userId: string) => {
       ],
       mode: "payment",
       payment_method_types: ["card"],
-      success_url: `${config.app_url}/payment/success=true`,
-      cancel_url: `${config.app_url}/payment/success=false`,
+      success_url: `${config.app_url}/payment?success=true`,
+      cancel_url: `${config.app_url}/payment?success=false`,
       metadata: { bookingId: booking.id, customerId: userId },
     });
 
     await tx.payment.upsert({
-      where: {
-        bookingId: booking.id,
-      },
+      where: { bookingId: booking.id },
       create: {
         bookingId: booking.id,
         amount: booking.totalAmount,
@@ -55,6 +53,7 @@ const createCheckOutSession = async (bookingId: string, userId: string) => {
         status: "PENDING",
       },
     });
+
     return session.url;
   });
 
@@ -64,34 +63,123 @@ const createCheckOutSession = async (bookingId: string, userId: string) => {
 };
 
 const handleWebhook = async (payload: Buffer, signature: string) => {
-const endpointSecret = config.stripe_webhook_secret
+  const endpointSecret = config.stripe_webhook_secret;
 
- event = stripe.webhooks.constructEvent(
-        payload,
-        signature,
-        endpointSecret
-      );
-
-
-      switch (event.type) {
-    case 'payment_intent.succeeded':
-      const paymentIntent = event.data.object;
-      // Then define and call a method to handle the successful payment intent.
-      // handlePaymentIntentSucceeded(paymentIntent);
-      break;
-    case 'payment_method.attached':
-      const paymentMethod = event.data.object;
-      // Then define and call a method to handle the successful attachment of a PaymentMethod.
-      // handlePaymentMethodAttached(paymentMethod);
-      break;
-    // ... handle other event types
-    default:
-      console.log(`Unhandled event type ${event.type}`);
+  if (!endpointSecret) {
+    throw new Error("Stripe Webhook Secret is missing in config file!");
   }
 
-  // Return a response to acknowledge receipt of the event
-  response.json({received: true});
+  const event: Stripe.Event = stripe.webhooks.constructEvent(
+    payload,
+    signature,
+    endpointSecret,
+  );
 
+  switch (event.type) {
+    case "checkout.session.completed": {
+      const session: Stripe.Checkout.Session = event.data.object;
+
+      await prisma.$transaction(async (tx) => {
+        const payment = await tx.payment.findUniqueOrThrow({
+          where: { transactionId: session.id },
+        });
+
+        await tx.payment.update({
+          where: { id: payment.id },
+          data: { status: "SUCCESS" },
+        });
+
+        await tx.booking.update({
+          where: { id: payment.bookingId },
+          data: { status: "PAID" },
+        });
+      });
+      break;
+    }
+
+    case "checkout.session.expired": {
+      const session: Stripe.Checkout.Session = event.data.object;
+
+      await prisma.payment.update({
+        where: { transactionId: session.id },
+        data: { status: "FAILED" },
+      });
+      break;
+    }
+
+    default:
+      break;
+  }
 };
 
-export const paymentService = { createCheckOutSession, handleWebhook };
+const getPaymentHistory = async (userId: string, role: string) => {
+  const whereConditions: any = {};
+
+  if (role === "CUSTOMER") {
+    whereConditions.booking = { customerId: userId };
+  } else if (role === "TECHNICIAN") {
+    const technician = await prisma.technician.findUniqueOrThrow({
+      where: { userId },
+    });
+    whereConditions.booking = { technicianId: technician.id };
+  }
+
+  const result = await prisma.payment.findMany({
+    where: whereConditions,
+    include: {
+      booking: {
+        include: {
+          service: true,
+        },
+      },
+    },
+    orderBy: { createdAt: "desc" },
+  });
+
+  return result;
+};
+
+const getPaymentDetails = async (
+  paymentId: string,
+  userId: string,
+  role: string,
+) => {
+  const payment = await prisma.payment.findUniqueOrThrow({
+    where: { id: paymentId },
+    include: {
+      booking: {
+        include: {
+          service: true,
+          customer: { select: { name: true, email: true, phone: true } },
+          technician: {
+            include: {
+              user: { select: { name: true, email: true, phone: true } },
+            },
+          },
+        },
+      },
+    },
+  });
+
+  if (role === "CUSTOMER" && payment.booking.customerId !== userId) {
+    throw new Error("You are not authorized to view this payment!");
+  }
+
+  if (role === "TECHNICIAN") {
+    const technician = await prisma.technician.findUniqueOrThrow({
+      where: { userId },
+    });
+    if (payment.booking.technicianId !== technician.id) {
+      throw new Error("You are not authorized to view this payment!");
+    }
+  }
+
+  return payment;
+};
+
+export const paymentService = {
+  createCheckOutSession,
+  handleWebhook,
+  getPaymentHistory,
+  getPaymentDetails,
+};

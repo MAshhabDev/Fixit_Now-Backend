@@ -20,11 +20,16 @@ import { paymentRoute } from "./module/payment/payment.route";
 
 export const app: Application = express();
 
-app.post('/webhook',express.raw({type:'application/json'}),(request,response)=>{
+app.use("/api/subscription/webhook", express.raw({ type: 'application/json' }))
 
-})
 
-app.use(express.json());
+app.use(
+  express.json({
+    verify: (req: any, res, buf) => {
+      req.rawBody = buf;
+    },
+  })
+);
 app.use(express.urlencoded({ extended: true }));
 
 app.use(cookieParser());
