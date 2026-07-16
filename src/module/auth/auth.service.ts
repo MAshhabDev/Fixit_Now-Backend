@@ -61,6 +61,11 @@ const createUser = async (payload: ICreate) => {
 
 const logInUser = async (payload: ILogin) => {
   const { email, password } = payload;
+
+  if (!email || !password) {
+    throw new Error("Email and password are required!");
+  }
+
   const user = await prisma.user.findUnique({
     where: {
       email,

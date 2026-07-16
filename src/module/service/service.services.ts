@@ -1,5 +1,5 @@
 import { prisma } from "../../lib/prisma";
-import type { ICreateService } from "./service.interface";
+import type { ICreateService, IUpdateService } from "./service.interface";
 
 const createService = async (userId: string, payload: ICreateService) => {
   const { title, description, price, duration, categoryId } = payload;
@@ -118,7 +118,7 @@ const getAllService = async (query: any) => {
   return filteredServices;
 };
 
-const updateService = async (id: string, userId: string, payload: any) => {
+const updateService = async (id: string, userId: string, payload: IUpdateService) => {
   const user = await prisma.technician.findUniqueOrThrow({
     where: { userId },
   });

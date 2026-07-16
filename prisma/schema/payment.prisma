@@ -1,19 +1,13 @@
 model Payment {
   id            String        @id @default(uuid())
-  amount        Int           // Payment amount (in BDT or USD)
-  transactionId String        @unique // Stripe Checkout Session ID
+  amount        Int          
+  transactionId String        @unique 
   status        PaymentStatus @default(PENDING)
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
 
-  // 1-to-1 relationship with Booking
   bookingId String  @unique
   booking   Booking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
 }
 
-enum PaymentStatus {
-  PENDING
-  SUCCESS
-  FAILED
-  REFUNDED
-}
+

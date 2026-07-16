@@ -28,7 +28,7 @@ const getCustomerBooking = catchAsync(
 
     sendResponse(res, {
       success: true,
-      statusCode: httpStatus.CREATED,
+      statusCode: httpStatus.OK,
       message: "Customers Booking Retrieved successfully",
       data: 
         result,

@@ -1,6 +1,7 @@
 import { prisma } from "../../lib/prisma";
+import type { ICreateCategory } from "./category.interface";
 
-const createCategory = async (payload: any) => {
+const createCategory = async (payload: ICreateCategory) => {
   const { name, description } = payload;
 
   const result = await prisma.category.create({

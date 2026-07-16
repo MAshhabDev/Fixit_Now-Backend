@@ -1,8 +1,14 @@
 import type { Role } from "../../../generated/prisma/enums";
 import { prisma } from "../../lib/prisma";
+import type { ICreateBooking } from "./booking.interface";
 
-const createBooking = async (userId: string, payload: any) => {
+const createBooking = async (userId: string, payload: ICreateBooking) => {
   const { timeSlot, serviceAddress, technicianId, serviceId } = payload;
+
+  if (!timeSlot || !serviceAddress || !technicianId || !serviceId) {
+    throw new Error("timeSlot, serviceAddress, technicianId, and serviceId are required!");
+  }
+
   const services = await prisma.service.findUniqueOrThrow({
     where: { id: payload.serviceId },
   });
