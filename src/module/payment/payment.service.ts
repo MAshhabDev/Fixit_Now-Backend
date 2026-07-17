@@ -1,9 +1,9 @@
 import Stripe from "stripe";
-import { Prisma } from "@prisma/client";
 import { config } from "../../config";
 import { prisma } from "../../lib/prisma";
 import { stripe } from "../../lib/stripe";
 import { paymentUtils } from "./payment.utils";
+import type { PaymentWhereInput } from "../../../generated/prisma/models";
 
 const createCheckOutSession = async (bookingId: string, userId: string) => {
   const transactionResult = await prisma.$transaction(async (tx) => {
@@ -95,7 +95,7 @@ const handleWebhook = async (payload: Buffer, signature: string) => {
 };
 
 const getPaymentHistory = async (userId: string, role: string) => {
-  const whereConditions: Prisma.PaymentWhereInput = {};
+  const whereConditions: PaymentWhereInput = {};
 
   if (role === "CUSTOMER") {
     whereConditions.booking = { customerId: userId };
