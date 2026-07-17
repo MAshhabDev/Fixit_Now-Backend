@@ -1,0 +1,883 @@
+{
+  "info": {
+    "_postman_id": "da93c5d1-172e-4a07-9002-eb5230c552d8",
+    "name": "Fixit Now",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "54825161",
+    "_collection_link": "https://go.postman.co/collection/54825161-da93c5d1-172e-4a07-9002-eb5230c552d8?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Registration",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"name\": \"Admin\",\r\n  \"email\": \"admin@gmail.com\",\r\n  \"password\": \"123457\",\r\n  \"phone\":\"0170857\",\r\n  \"role\": \"ADMIN\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://fixit-now-backend-xjyr.onrender.com/api/auth/register",
+          "protocol": "https",
+          "host": [
+            "fixit-now-backend-xjyr",
+            "onrender",
+            "com"
+          ],
+          "path": [
+            "api",
+            "auth",
+            "register"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Log In",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"email\": \"admin@gmail.com\",\r\n    \"password\": \"123457\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://fixit-now-backend-xjyr.onrender.com/api/auth/logIn",
+          "protocol": "https",
+          "host": [
+            "fixit-now-backend-xjyr",
+            "onrender",
+            "com"
+          ],
+          "path": [
+            "api",
+            "auth",
+            "logIn"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get My Profile",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{auth_secret_03km}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{json_web_token_0hci}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "https://fixit-now-backend-xjyr.onrender.com/api/auth/me",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "api",
+            "auth",
+            "me"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update User Status",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{json_web_token_0tll}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"status\": \"ACTIVE\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://fixit-now-backend-xjyr.onrender.com/api/admin/users/f5eaac6e-5416-49a8-823b-69b344a399c5",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "api",
+            "admin",
+            "users",
+            "f5eaac6e-5416-49a8-823b-69b344a399c5"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create Category",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{json_web_token_0ag7}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"name\":\"Plumber\",\r\n    \"description\":\"Fixed The Pipe\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://fixit-now-backend-xjyr.onrender.com/api/admin/categories",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "api",
+            "admin",
+            "categories"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Category Data",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{supabase_service_role_api_key_0u1w}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "https://fixit-now-backend-xjyr.onrender.com/api/admin/categories",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "api",
+            "admin",
+            "categories"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Category Data By All",
+      "request": {
+        "method": "GET",
+        "header": []
+      },
+      "response": []
+    },
+    {
+      "name": "Update Technician Profile",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{supabase_service_role_api_key_13oa}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"bio\": \"I am a professional electrician specialized in home wiring, electrical appliance setup, and short circuit repairs.\",\r\n  \"skills\": \"Home Wiring, Switchboard Repair, Appliance Setup\",\r\n  \"experience\": 5,\r\n  \"rate\": 500,\r\n  \"location\": \"Dhanmondi, Dhaka\",\r\n  \"availability\": \"Sat-Thu (9:00 AM - 6:00 PM)\",\r\n  \"categoryId\": \"60fa5895-1fd0-4287-8463-65c76a315aeb\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://fixit-now-backend-xjyr.onrender.com/api/technician/profile",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "api",
+            "technician",
+            "profile"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Technician Availability",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{supabase_service_role_api_key_13oa}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"availability\": \"Everyday, 9:00 AM - 5:00 PM\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://fixit-now-backend-xjyr.onrender.com/api/technician/availability",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "api",
+            "technician",
+            "availability"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create Service By Technician",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{json_web_token_13oa}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"title\": \"Kitchen Tap Leak Repair\",\r\n  \"description\": \"Fixing leaking kitchen taps, pipe joints, and minor basin plumbing issues.\",\r\n  \"price\": 800,\r\n  \"duration\": \"1.5 hours\",\r\n  \"categoryId\": \"60fa5895-1fd0-4287-8463-65c76a315aeb\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://fixit-now-backend-xjyr.onrender.com/api/service",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "api",
+            "service"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Services",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://fixit-now-backend-xjyr.onrender.com/api/services",
+          "protocol": "https",
+          "host": [
+            "fixit-now-backend-xjyr",
+            "onrender",
+            "com"
+          ],
+          "path": [
+            "api",
+            "services"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create Booking By Customer",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{json_web_token_0bb3}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"serviceId\": \"2c4d2e5c-ffb6-439e-97b2-0bcedfc49a38\",\r\n  \"technicianId\": \"3819e31c-897e-4d04-9026-692db5f25257\",\r\n  \"timeSlot\": \"10:00 AM - 12:00 PM\",\r\n  \"serviceAddress\": \"Road 8A, Dhanmondi, Dhaka\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://fixit-now-backend-xjyr.onrender.com/api/bookings",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "api",
+            "bookings"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Booking By Customer",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{supabase_service_role_api_key_0bb3}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "https://fixit-now-backend-xjyr.onrender.com/api/bookings",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "api",
+            "bookings"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Single Booking Details",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{json_web_token_0bb3}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "https://fixit-now-backend-xjyr.onrender.com/api/bookings/1f8dc9bb-e215-4d5e-811d-f0f694082484",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "api",
+            "bookings",
+            "1f8dc9bb-e215-4d5e-811d-f0f694082484"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Technician  Booking",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImY1ZWFhYzZlLTU0MTYtNDlhOC04MjNiLTY5YjM0NGEzOTljNSIsIm5hbWUiOiJTaWFtIiwiZW1haWwiOiJzaWFtQGdtYWlsLmNvbSIsInJvbGUiOiJURUNITklDSUFOIiwicGhvbmUiOiIwMTcwODU3IiwiaWF0IjoxNzgzNzY0NDc5LCJleHAiOjE3ODM4NTA4Nzl9.vA8AYKD73XtrfjjoSsnWjw5ceG3syfHxCto9xWz2wUg",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "https://fixit-now-backend-xjyr.onrender.com/api/technician/bookings",
+          "protocol": "https",
+          "host": [
+            "fixit-now-backend-xjyr",
+            "onrender",
+            "com"
+          ],
+          "path": [
+            "api",
+            "technician",
+            "bookings"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Technician Status",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{json_web_token_1a7i}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"status\": \"ACCEPTED\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://fixit-now-backend-xjyr.onrender.com/api/technician/bookings/2c5052f1-1f71-4266-900d-ec530a05f0cf",
+          "protocol": "https",
+          "host": [
+            "fixit-now-backend-xjyr",
+            "onrender",
+            "com"
+          ],
+          "path": [
+            "api",
+            "technician",
+            "bookings",
+            "2c5052f1-1f71-4266-900d-ec530a05f0cf"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create Review",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{supabase_service_role_api_key_0uj8}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"bookingId\": \"1f8dc9bb-e215-4d5e-811d-f0f694082484\",\r\n  \"rating\": 5,\r\n  \"comment\": \"Highly recommended! He fixed the pipeline issue very quickly and professionally.\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://fixit-now-backend-xjyr.onrender.com/api/review",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "api",
+            "review"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get all users by admin",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{supabase_service_role_api_key_0wos}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "https://fixit-now-backend-xjyr.onrender.com/api/admin/users",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "api",
+            "admin",
+            "users"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Booking List by admin",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{supabase_service_role_api_key_0wos}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "https://fixit-now-backend-xjyr.onrender.com/api/admin/bookings",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "api",
+            "admin",
+            "bookings"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get All Technician",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://fixit-now-backend-xjyr.onrender.com/api/technician",
+          "protocol": "https",
+          "host": [
+            "fixit-now-backend-xjyr",
+            "onrender",
+            "com"
+          ],
+          "path": [
+            "api",
+            "technician"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get All Technician Filter by location and category",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://fixit-now-backend-xjyr.onrender.com/api/technicians?location=Dhanmondi&categoryId=",
+          "protocol": "https",
+          "host": [
+            "fixit-now-backend-xjyr",
+            "onrender",
+            "com"
+          ],
+          "path": [
+            "api",
+            "technicians"
+          ],
+          "query": [
+            {
+              "key": "location",
+              "value": "Dhanmondi"
+            },
+            {
+              "key": "categoryId",
+              "value": ""
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get All Technician Filter by location and category Copy",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://fixit-now-backend-xjyr.onrender.com/api/technician/3819e31c-897e-4d04-9026-692db5f25257",
+          "protocol": "https",
+          "host": [
+            "fixit-now-backend-xjyr",
+            "onrender",
+            "com"
+          ],
+          "path": [
+            "api",
+            "technician",
+            "3819e31c-897e-4d04-9026-692db5f25257"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Verify Technician",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{json_web_token_0tll}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"isVerified\": true\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://fixit-now-backend-xjyr.onrender.com/api/admin/technician/3819e31c-897e-4d04-9026-692db5f25257/verify",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "api",
+            "admin",
+            "technician",
+            "3819e31c-897e-4d04-9026-692db5f25257",
+            "verify"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create Session For Payment",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{json_web_token_0ht4}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"bookingId\": \"2c5052f1-1f71-4266-900d-ec530a05f0cf\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://fixit-now-backend-xjyr.onrender.com/api/payment/create",
+          "protocol": "https",
+          "host": [
+            "fixit-now-backend-xjyr",
+            "onrender",
+            "com"
+          ],
+          "path": [
+            "api",
+            "payment",
+            "create"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Payment History",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{supabase_service_role_api_key_0u1w}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"bookingId\": \"1f8dc9bb-e215-4d5e-811d-f0f694082484\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://fixit-now-backend-xjyr.onrender.com/api/payment",
+          "protocol": "https",
+          "host": [
+            "fixit-now-backend-xjyr",
+            "onrender",
+            "com"
+          ],
+          "path": [
+            "api",
+            "payment"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Payment Details",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{supabase_service_role_api_key_0u1w}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"bookingId\": \"1f8dc9bb-e215-4d5e-811d-f0f694082484\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://fixit-now-backend-xjyr.onrender.com/api/payment/70ccfcc2-4a26-4937-b9ef-ed2326686e9b",
+          "protocol": "https",
+          "host": [
+            "fixit-now-backend-xjyr",
+            "onrender",
+            "com"
+          ],
+          "path": [
+            "api",
+            "payment",
+            "70ccfcc2-4a26-4937-b9ef-ed2326686e9b"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "auth_secret_03km",
+      "secret": true
+    },
+    {
+      "key": "json_web_token_0ag7",
+      "secret": true
+    },
+    {
+      "key": "supabase_service_role_api_key_13oa",
+      "secret": true
+    },
+    {
+      "key": "json_web_token_13oa",
+      "secret": true
+    },
+    {
+      "key": "json_web_token_0bb3",
+      "secret": true
+    },
+    {
+      "key": "supabase_service_role_api_key_0bb3",
+      "secret": true
+    },
+    {
+      "key": "json_web_token_1dis",
+      "secret": true
+    },
+    {
+      "key": "supabase_service_role_api_key_0uj8",
+      "secret": true
+    },
+    {
+      "key": "supabase_service_role_api_key_0wos",
+      "secret": true
+    },
+    {
+      "key": "json_web_token_0hci",
+      "secret": true
+    },
+    {
+      "key": "json_web_token_0tll",
+      "secret": true
+    },
+    {
+      "key": "supabase_service_role_api_key_1bzk",
+      "secret": true
+    },
+    {
+      "key": "supabase_service_role_api_key_0ev4",
+      "secret": true
+    },
+    {
+      "key": "supabase_service_role_api_key_0u1w",
+      "secret": true
+    },
+    {
+      "key": "json_web_token_0ht4",
+      "secret": true
+    },
+    {
+      "key": "json_web_token_1a7i",
+      "secret": true
+    }
+  ]
+}

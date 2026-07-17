@@ -2,7 +2,9 @@
 
 Fixit-Now is a robust, production-ready RESTful API backend for a home service marketplace (e.g., plumbing, electrical works, appliance repairs). It allows customers to book services from verified technicians, processes secure payments using **Stripe**, and offers administrative controls to manage users and verify profiles.
 
-Hosted Live on **Render** with a serverless **Neon PostgreSQL** database.
+🔗 **Live API URL:** [https://YOUR-APP-NAME.onrender.com](https://YOUR-APP-NAME.onrender.com) *(আপনার রেন্ডার থেকে পাওয়া লাইভ লিঙ্কটি এখানে বসিয়ে দিন)*
+
+🗄️ **Database:** Serverless Neon PostgreSQL (Cloud)
 
 ---
 
