@@ -8,3 +8,9 @@ export interface IUpdate {
   categoryId: string;
   userId?: string;
 }
+
+export interface ITechnicianQuery {
+  searchTerm?: string;
+  categoryId?: string;
+  location?: string;
+}

@@ -1,6 +1,7 @@
 import type { NextFunction, Request, Response } from "express";
 import { catchAsync } from "../../utils/catchAsync";
 import { technicianService } from "./technician.service";
+import type { ITechnicianQuery } from "./technician.interface";
 import { sendResponse } from "../../utils/sendResponse";
 import httpStatus from "http-status";
 import { prisma } from "../../lib/prisma";
@@ -72,9 +73,10 @@ const updateBookingStatus = catchAsync(
     });
   },
 );
+
 const getAllTechnician = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    const query = req.query;
+    const query = req.query as ITechnicianQuery;
     const result = await technicianService.getAllTechnician(query);
 
     sendResponse(res, {

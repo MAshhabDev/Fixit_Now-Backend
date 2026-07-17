@@ -14,3 +14,13 @@ export interface IUpdateService {
   duration?: string;
   categoryId?: string;
 }
+
+export interface IServiceQuery {
+  sortBy?: string;
+  sortOrder?: "asc" | "desc";
+  type?: string;
+  location?: string;
+  minPrice?: string;
+  maxPrice?: string;
+  rating?: string;
+}

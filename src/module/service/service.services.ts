@@ -1,5 +1,6 @@
+import type { IntFilter, ServiceWhereInput } from "../../../generated/prisma/models";
 import { prisma } from "../../lib/prisma";
-import type { ICreateService, IUpdateService } from "./service.interface";
+import type { ICreateService, IUpdateService, IServiceQuery } from "./service.interface";
 
 const createService = async (userId: string, payload: ICreateService) => {
   const { title, description, price, duration, categoryId } = payload;
@@ -21,10 +22,10 @@ const createService = async (userId: string, payload: ICreateService) => {
   return result;
 };
 
-const getAllService = async (query: any) => {
+const getAllService = async (query: IServiceQuery) => {
   const sortBy = query.sortBy ? query.sortBy : "createdAt";
   const sortOrder = query.sortOrder ? query.sortOrder : "desc";
-  const andConditions: any[] = [];
+  const andConditions: ServiceWhereInput[] = [];
 
   if (query.type) {
     andConditions.push({
@@ -44,7 +45,7 @@ const getAllService = async (query: any) => {
   }
 
   if (query.minPrice || query.maxPrice) {
-    const priceFilter: any = {};
+    const priceFilter:IntFilter = {};
     if (query.minPrice) {
       priceFilter.gte = Number(query.minPrice);
     }

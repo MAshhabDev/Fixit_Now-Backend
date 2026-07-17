@@ -4,6 +4,8 @@ import { serviceServices } from "./service.services";
 import { sendResponse } from "../../utils/sendResponse";
 import httpStatus from "http-status";
 
+import type { IServiceQuery } from "./service.interface";
+
 const createService = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const userId = req.user?.id;
@@ -25,7 +27,7 @@ const createService = catchAsync(
 
 const getAllService = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    const result = await serviceServices.getAllService(req.query);
+    const result = await serviceServices.getAllService(req.query as IServiceQuery);
 
     sendResponse(res, {
       success: true,

@@ -13,7 +13,7 @@ export type ValidationRules = {
 };
 
 export const validateInput = (rules: ValidationRules) => {
-  return (req: Request, res: Response, next: NextFunction): any => {
+  return (req: Request, res: Response, next: NextFunction): void | Response => {
     const errors: string[] = [];
     const body = req.body || {};
 

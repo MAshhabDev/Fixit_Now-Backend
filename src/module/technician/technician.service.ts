@@ -1,6 +1,7 @@
 import type { bookingStatus } from "../../../generated/prisma/enums";
+import type { TechnicianWhereInput } from "../../../generated/prisma/models";
 import { prisma } from "../../lib/prisma";
-import type { IUpdate } from "./technician.interface";
+import type { IUpdate, ITechnicianQuery } from "./technician.interface";
 
 const updateProfile = async (userId: string, payload: IUpdate) => {
   const { bio, skills, experience, rate, location, availability, categoryId } =
@@ -31,6 +32,7 @@ const updateProfile = async (userId: string, payload: IUpdate) => {
   });
   return result;
 };
+
 const updateAvailability = async (userId: string, availability: string) => {
   const isProfileExist = await prisma.technician.findUnique({
     where: { userId },
@@ -69,6 +71,7 @@ const getTechnicianBooking = async (userId: string) => {
   });
   return result;
 };
+
 const updateBookingStatus = async (
   bookingId: string,
   userId: string,
@@ -98,9 +101,9 @@ const updateBookingStatus = async (
   return result;
 };
 
-const getAllTechnician = async (query: any) => {
+const getAllTechnician = async (query: ITechnicianQuery) => {
   const { searchTerm, categoryId, location } = query;
-  const andConditions: any[] = [];
+  const andConditions: TechnicianWhereInput[] = [];
 
   if (searchTerm) {
     andConditions.push({

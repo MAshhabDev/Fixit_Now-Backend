@@ -1,4 +1,5 @@
 import Stripe from "stripe";
+import { Prisma } from "@prisma/client";
 import { config } from "../../config";
 import { prisma } from "../../lib/prisma";
 import { stripe } from "../../lib/stripe";
@@ -94,7 +95,7 @@ const handleWebhook = async (payload: Buffer, signature: string) => {
 };
 
 const getPaymentHistory = async (userId: string, role: string) => {
-  const whereConditions: any = {};
+  const whereConditions: Prisma.PaymentWhereInput = {};
 
   if (role === "CUSTOMER") {
     whereConditions.booking = { customerId: userId };
