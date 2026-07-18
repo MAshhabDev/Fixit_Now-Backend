@@ -20,22 +20,18 @@ export const validateInput = (rules: ValidationRules) => {
     for (const [field, rule] of Object.entries(rules)) {
       const val = body[field];
 
-      // 1. Check if the field is required but missing
       if (rule.required && (val === undefined || val === null || val === "")) {
         errors.push(`${field} is required`);
         continue;
       }
 
-      // 2. Validate value if it exists
       if (val !== undefined && val !== null && val !== "") {
-        // Email type check
         if (rule.type === "email") {
           const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
           if (typeof val !== "string" || !emailRegex.test(val)) {
             errors.push(`${field} must be a valid email address`);
           }
         }
-        // Number type check
         else if (rule.type === "number") {
           const num = Number(val);
           if (isNaN(num)) {
@@ -49,14 +45,12 @@ export const validateInput = (rules: ValidationRules) => {
             }
           }
         }
-        // Standard type check (string, boolean)
         else if (typeof val !== rule.type) {
           errors.push(`${field} must be of type ${rule.type}`);
         }
       }
     }
 
-    // If there are validation errors, return BAD_REQUEST response
     if (errors.length > 0) {
       return res.status(httpStatus.BAD_REQUEST).json({
         success: false,

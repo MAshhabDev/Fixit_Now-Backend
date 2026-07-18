@@ -4,6 +4,7 @@ import express, {
   type Response,
 } from "express";
 import cookieParser from "cookie-parser";
+import cors from "cors";
 import { authRoute } from "./module/auth/auth.route";
 import {
   adminCategoryRoute,
@@ -19,6 +20,8 @@ import { notFound } from "./middlewares/notFound";
 import { paymentRoute } from "./module/payment/payment.route";
 
 export const app: Application = express();
+
+app.use(cors({ origin: true, credentials: true }));
 
 app.use("/api/subscription/webhook", express.raw({ type: 'application/json' }))
 
