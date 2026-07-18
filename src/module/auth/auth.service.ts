@@ -12,6 +12,10 @@ const createUser = async (payload: ICreate) => {
     throw new Error("Please Input The Field Properly");
   }
 
+  if (role === "ADMIN") {
+    throw new Error("Unauthorized role registration!");
+  }
+
   if (!email.includes("@")) {
     throw new Error("Please provide a valid email address");
   }
