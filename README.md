@@ -89,12 +89,17 @@ npx prisma generate
 npx prisma db push
 ```
 
-### 3. Start Development Server
+### 3. Run Database Seed (To generate initial Admin & Categories)
+```bash
+npx prisma db seed
+```
+
+### 4. Start Development Server
 ```bash
 npm run dev
 ```
 
-### 4. Forward Stripe Webhooks Locally
+### 5. Forward Stripe Webhooks Locally
 ```bash
 stripe listen --forward-to localhost:5000/api/payment/webhook
 ```
