@@ -16,9 +16,9 @@ async function runSeed() {
 
   await prisma.user.create({
     data: {
-      name: "Admin User",
+      name: "Admin",
       email: "admin@gmail.com",
-      password: "12345", 
+      password: "123457", 
       phone: "01711122233",
       role: "ADMIN",
     },
