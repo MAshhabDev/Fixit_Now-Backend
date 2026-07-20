@@ -1,5 +1,9 @@
 # Fixit-Now Backend (Home Service Booking Platform)
 
+<p align="center">
+  <img src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?q=80&w=800" width="100%" style="border-radius: 8px; display: block;" alt="Fixit-Now Banner" />
+</p>
+
 Fixit-Now is a robust, production-ready RESTful API backend for a home service marketplace (e.g., plumbing, electrical works, appliance repairs). It allows customers to book services from verified technicians, processes secure payments using **Stripe**, and offers administrative controls to manage users and verify profiles.
 
 🔗 **Live API URL:** [https://fixit-now-backend-xjyr.onrender.com/](https://fixit-now-backend-xjyr.onrender.com/)
@@ -15,6 +19,22 @@ Fixit-Now is a robust, production-ready RESTful API backend for a home service m
 *   **Payment Gateway:** Stripe API (Checkout Sessions & Webhooks)
 *   **Security:** Bcrypt (Password Hashing) & JWT (Authentication & Authorization)
 *   **Compiler/Bundler:** TypeScript (`tsc`) & Esbuild
+
+---
+
+## 📦 Dependencies
+
+The core runtime dependencies used in this project are:
+*   `express` - Fast, minimalist web framework for server routing.
+*   `@prisma/client` & `prisma` - Next-generation ORM to interact with Neon PostgreSQL.
+*   `stripe` - Official Node.js library to handle payments, sessions, and webhooks.
+*   `jsonwebtoken` - Core auth payload verification and JWT access/refresh token signing.
+*   `bcrypt` - Salted password hashing algorithm for secure logins.
+*   `cors` - CORS middleware implementation to support cross-origin frontend requests.
+*   `cookie-parser` - Express parser for secure cookie-based auth validations.
+*   `dotenv` - Secure environment variable compilation wrapper.
+*   `pg` & `@prisma/adapter-pg` - Low-level PostgreSQL driver layer.
+*   `http-status` - Utility library for standardized API response status codes.
 
 ---
 
